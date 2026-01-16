@@ -1,3 +1,17 @@
+def get_integer_input(message, min_val=None, max_val=None):
+    while True:
+        try:
+            value = int(input(message))
+            if min_val is not None and value < min_val:
+                print(f" Invalid input! Value must be ≥ {min_val}")
+            elif max_val is not None and value > max_val:
+                print(f" Invalid input! Value must be ≤ {max_val}")
+            else:
+                return value
+        except ValueError:
+            print(" Invalid data error! Please enter a numeric value.")
+
+
 def calculate_grade(avg):
     if avg >= 90:
         return "A+"
@@ -23,7 +37,8 @@ def analyze_students(students):
         grade = calculate_grade(avg)
         result = "Pass" if avg >= 40 else "Fail"
 
-        print(f"\nStudent Name : {name}")
+        print("\n------------------------------")
+        print(f"Student Name : {name}")
         print("Marks        :", subjects)
         print("Total Marks  :", total)
         print("Average      :", round(avg, 2))
@@ -48,16 +63,23 @@ def analyze_students(students):
 # -------- Main Program --------
 students = {}
 
-num_students = int(input("Enter number of students: "))
+num_students = get_integer_input("Enter number of students: ", min_val=1)
 
 for _ in range(num_students):
     name = input("\nEnter student name: ")
-    num_subjects = int(input("Enter number of subjects: "))
+
+    num_subjects = get_integer_input(
+        "Enter number of subjects: ", min_val=1
+    )
 
     subjects = {}
     for _ in range(num_subjects):
         subject = input("Subject name: ")
-        mark = int(input("Marks (0-100): "))
+
+        mark = get_integer_input(
+            "Marks (0-100): ", min_val=0, max_val=100
+        )
+
         subjects[subject] = mark
 
     students[name] = subjects
